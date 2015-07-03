@@ -18,7 +18,15 @@ class ViewController: UIViewController {
     //todo: maybe show the table on top
     //todo: save history on NSUserDefaults
     @IBOutlet weak var tableView: UITableView!
-    var searchHistory = [String]()
+    var searchHistory = [String](){
+        didSet {
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
+            {
+                appDelegate.searchHistory = searchHistory
+            }
+        }
+    }
+    
     var filteredSearchHistory = [String](){
         didSet {
             searchHistoryTableViewController.filteredSearchHistory = filteredSearchHistory
@@ -160,11 +168,15 @@ extension ViewController: UISearchBarDelegate{
     
     func searchBarTextDidEndEditing(searchBar: UISearchBar)
     {
-        if (count(searchBar.text) > 0)
+        if let text = searchBar.text where count(text) > 0
         {
             searchHistoryTableViewController.view.hidden = true
-            searchHistory.append(searchBar.text)
-            flickrManager.searchRequest(searchBar.text)
+            if !contains(searchHistory, text)
+            {
+                searchHistory.append(text)
+            }
+            
+            flickrManager.searchRequest(text)
         }
     }
 }
