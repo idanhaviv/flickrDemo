@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchTextField: UITextField!
     let flickrManager = FlickrManager()
-    var photos = [Photo]()
+    var photos = [[String : String]]()
     
     //flickr api assumes UTF-8 encoded strings
     override func viewDidLoad() {
@@ -53,7 +53,7 @@ extension ViewController: UITableViewDataSource{
         
     }
     
-    func updateCell(cell: UITableViewCell, photo: Photo)
+    func updateCell(cell: UITableViewCell, photo: [String : String])
     {
         
     }
@@ -69,7 +69,7 @@ extension ViewController: UITextFieldDelegate{
 }
 
 extension ViewController: FlickrManagerDelegate{
-    func modelHasUpdated(photos: [Photo]) {
+    func modelHasUpdated(photos: [[String : String]]) {
         self.photos = photos
         tableView.reloadData()
     }

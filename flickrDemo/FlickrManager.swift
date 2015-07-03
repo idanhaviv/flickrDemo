@@ -9,14 +9,14 @@
 import Foundation
 
 protocol FlickrManagerDelegate{
-    func modelHasUpdated(photos: [Photo])
+    func modelHasUpdated(photos: [[String : String]])
 }
 
 class FlickrManager: NSObject{
     
     //property for managing requests in process
     var runningRequests = Set<OFFlickrAPIRequest>()
-    var results = [Photo]()
+    var results = [[String : String]]()
     var context: OFFlickrAPIContext?
     var delegate: FlickrManagerDelegate?
     
@@ -72,15 +72,14 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
         NSLog("request: \(inRequest) completed with response: \(inResponseDictionary)")
     }
     
-    func processResults(results: [NSObject : AnyObject]!)->[Photo]
+    func processResults(results: [NSObject : AnyObject]!)->[[String : String]]
     {
-        var tempResultsArray = [Photo]()
+        var tempResultsArray = [[String : String]]()
         let tempDictionary = results["photos"] as! [NSObject : AnyObject]
         let photos = tempDictionary["photo"] as! [[String : String]]
         for photoInfo in photos
         {
-            let photo = Photo(properties: photoInfo)
-            tempResultsArray.append(photo)
+            tempResultsArray.append(photoInfo)
         }
         
         return tempResultsArray
