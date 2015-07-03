@@ -3,9 +3,54 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Search History View Controller-->
+        <scene sceneID="vGL-1i-UAr">
+            <objects>
+                <tableViewController storyboardIdentifier="search history" id="rjj-tA-V7G" customClass="SearchHistoryViewController" customModule="flickrDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wWV-Vg-bgb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="search history cell" id="LXE-X7-Fpx" customClass="SearchHistoryTableViewCell" customModule="flickrDemo" customModuleProvider="target">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LXE-X7-Fpx" id="vuZ-Ec-UnT">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lX0-15-2jK">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="43.5" id="mJq-UQ-f3V"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="lX0-15-2jK" secondAttribute="trailing" id="18E-4E-vnV"/>
+                                        <constraint firstItem="lX0-15-2jK" firstAttribute="top" secondItem="vuZ-Ec-UnT" secondAttribute="top" id="E7g-jL-IQV"/>
+                                        <constraint firstAttribute="bottom" secondItem="lX0-15-2jK" secondAttribute="bottom" id="PY2-Ja-m1F"/>
+                                        <constraint firstItem="lX0-15-2jK" firstAttribute="leading" secondItem="vuZ-Ec-UnT" secondAttribute="leading" id="sPW-CW-voT"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="label" destination="lX0-15-2jK" id="LUU-Wo-DMX"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="rjj-tA-V7G" id="fG1-OR-JCs"/>
+                            <outlet property="delegate" destination="rjj-tA-V7G" id="Ir5-uq-Cxy"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yyW-Ig-Gpq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1120" y="362"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -18,14 +63,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1E-HD-xaq">
-                                <rect key="frame" x="131.5" y="44" width="58.5" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ija-Pt-fxV">
-                                <rect key="frame" x="16" y="79" width="568" height="501"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ija-Pt-fxV" userLabel="Photos Table View">
+                                <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="photo cell" id="FnN-r2-WQv" userLabel="Photo Cell" customClass="SearchPhotoCell" customModule="flickrDemo" customModuleProvider="target">
@@ -35,7 +74,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q7a-4r-Tj9">
-                                                    <rect key="frame" x="0.0" y="0.0" width="43.5" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="q7a-4r-Tj9" secondAttribute="height" multiplier="1:1" id="gis-yS-WTT"/>
                                                         <constraint firstAttribute="height" constant="43.5" id="tg1-hB-8zr"/>
@@ -64,43 +103,37 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="l5o-4n-ejJ"/>
                                 </connections>
                             </tableView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hgq-LD-eTD">
-                                <rect key="frame" x="210" y="41" width="180" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="180" id="Yqx-E5-OcN"/>
-                                    <constraint firstAttribute="height" constant="30" id="a0i-N7-rHC"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="F8M-ha-QHj"/>
-                                </connections>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Hgq-LD-eTD" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="21" id="3bx-kr-xPX"/>
-                            <constraint firstAttribute="centerX" secondItem="Hgq-LD-eTD" secondAttribute="centerX" id="7Mu-Lj-UXA"/>
-                            <constraint firstAttribute="bottom" secondItem="ija-Pt-fxV" secondAttribute="bottom" constant="20" symbolic="YES" id="Bdf-gR-CRN"/>
-                            <constraint firstItem="ija-Pt-fxV" firstAttribute="centerX" secondItem="Hgq-LD-eTD" secondAttribute="centerX" id="CyZ-v6-zV8"/>
-                            <constraint firstItem="Hgq-LD-eTD" firstAttribute="leading" secondItem="q1E-HD-xaq" secondAttribute="trailing" constant="20" id="YUt-1N-9qF"/>
-                            <constraint firstItem="ija-Pt-fxV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="dRe-uH-d5Q"/>
-                            <constraint firstItem="q1E-HD-xaq" firstAttribute="baseline" secondItem="Hgq-LD-eTD" secondAttribute="baseline" id="dY2-5N-2yx"/>
-                            <constraint firstItem="ija-Pt-fxV" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="h70-qx-EnC"/>
-                            <constraint firstItem="ija-Pt-fxV" firstAttribute="top" secondItem="Hgq-LD-eTD" secondAttribute="bottom" constant="8" symbolic="YES" id="kqo-PG-le7"/>
+                            <constraint firstItem="ija-Pt-fxV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="3jy-Xh-aTV"/>
+                            <constraint firstItem="ija-Pt-fxV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="G6v-o7-5ds"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ija-Pt-fxV" secondAttribute="bottom" id="Ocv-Fg-0NT"/>
+                            <constraint firstAttribute="trailing" secondItem="ija-Pt-fxV" secondAttribute="trailing" id="vO2-jV-Xka"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="CyZ-v6-zV8"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
-                        <outlet property="searchTextField" destination="Hgq-LD-eTD" id="YAc-6T-3fv"/>
+                        <outlet property="searchDisplayController" destination="Yel-jb-7ld" id="k2O-WJ-3mo"/>
                         <outlet property="tableView" destination="ija-Pt-fxV" id="bRp-Wt-4xi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="Lo5-Wl-K6p">
+                    <connections>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="6cK-hx-axJ"/>
+                        <outlet property="searchContentsController" destination="BYZ-38-t0r" id="4qX-zW-Pus"/>
+                        <outlet property="searchResultsDataSource" destination="BYZ-38-t0r" id="Nun-9s-qq7"/>
+                        <outlet property="searchResultsDelegate" destination="BYZ-38-t0r" id="wAf-9b-y68"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="Yel-jb-7ld">
+                    <connections>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="LKN-I2-I9x"/>
+                        <outlet property="searchContentsController" destination="BYZ-38-t0r" id="aku-5v-dKj"/>
+                        <outlet property="searchResultsDataSource" destination="BYZ-38-t0r" id="McY-92-alP"/>
+                        <outlet property="searchResultsDelegate" destination="BYZ-38-t0r" id="ARc-Ac-m2k"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
         </scene>
     </scenes>
