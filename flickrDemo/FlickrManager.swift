@@ -8,12 +8,17 @@
 
 import Foundation
 
+protocol FlickrManagerDelegate{
+    func modelHasUpdated(photos: [Photo])
+}
+
 class FlickrManager: NSObject{
     
     //property for managing requests in process
     var runningRequests = Set<OFFlickrAPIRequest>()
     var results = [Photo]()
     var context: OFFlickrAPIContext?
+    var delegate: FlickrManagerDelegate?
     
     struct FlickrKeys {
         static let flickrKey = "c754f58e4b5c7bd4c8885347222b3238"
@@ -59,6 +64,11 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
     func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didCompleteWithResponse inResponseDictionary: [NSObject : AnyObject]!)
     {
         results = processResults(inResponseDictionary)
+        if let delegate = delegate
+        {
+            delegate.modelHasUpdated(results)
+        }
+        
         NSLog("request: \(inRequest) completed with response: \(inResponseDictionary)")
     }
     
@@ -74,7 +84,6 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
         }
         
         return tempResultsArray
-        
     }
     
     func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!)

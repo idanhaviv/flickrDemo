@@ -13,26 +13,49 @@ class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchTextField: UITextField!
     let flickrManager = FlickrManager()
+    var photos = [Photo]()
     
     //flickr api assumes UTF-8 encoded strings
     override func viewDidLoad() {
         super.viewDidLoad()
+        flickrManager.delegate = self
         flickrManager.searchRequest("spring")
     }
 }
 
 extension ViewController: UITableViewDataSource{
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        if var cell = tableView.dequeueReusableCellWithIdentifier("photo cell", forIndexPath: indexPath) as? UITableViewCell
+        {
+            cleanCellBeforeReuse(cell)
+            updateCell(cell, photo: photos[indexPath.row])
+            
+            return cell
+        }
+        
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return photos.count
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
         return 1
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+    func cleanCellBeforeReuse(cell: UITableViewCell)
+    {
+        
+    }
+    
+    func updateCell(cell: UITableViewCell, photo: Photo)
+    {
+        
     }
 }
 
@@ -43,4 +66,11 @@ extension ViewController: UITableViewDelegate{
 
 extension ViewController: UITextFieldDelegate{
     
+}
+
+extension ViewController: FlickrManagerDelegate{
+    func modelHasUpdated(photos: [Photo]) {
+        self.photos = photos
+        tableView.reloadData()
+    }
 }
