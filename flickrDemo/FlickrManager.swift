@@ -32,9 +32,9 @@ class FlickrManager: NSObject{
         super.init()
     }
     
-    func urlForPhoto(photo: [String : String]) -> NSURL
+    func urlForPhoto(photo: [String : String], size: NSString? = OFFlickrThumbnailSize) -> NSURL
     {
-        return context.photoSourceURLFromDictionary(photo, size: OFFlickrThumbnailSize)
+        return context.photoSourceURLFromDictionary(photo, size: size as? String)
     }
     
     func searchRequest(text: String)

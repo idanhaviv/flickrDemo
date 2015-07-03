@@ -14,9 +14,7 @@ protocol SearchHistoryDelegate{
 }
 
 class ViewController: UIViewController {
-    //todo: when returning from search controller don't reload
-    //todo: maybe show the table on top
-    //todo: save history on NSUserDefaults
+    //todo: add paging and caching photos
     @IBOutlet weak var tableView: UITableView!
     var searchHistory = [String](){
         didSet {
@@ -27,16 +25,12 @@ class ViewController: UIViewController {
         }
     }
     
-    var filteredSearchHistory = [String](){
-        didSet {
-            searchHistoryTableViewController.filteredSearchHistory = filteredSearchHistory
-            searchHistoryTableViewController.view.hidden = false
-        }
-    }
+    var filteredSearchHistory = [String]()
     let flickrManager = FlickrManager()
     var photos = [[String : String]]()
     var photosSearchController = UISearchController()
     let searchHistoryTableViewController: SearchHistoryViewController!
+    var selectedPhotoData: [String : String]?
     
     required init(coder aDecoder: NSCoder)
     {
@@ -50,6 +44,7 @@ class ViewController: UIViewController {
     //flickr api assumes UTF-8 encoded strings
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.hidden = true
         flickrManager.delegate = self
         searchHistoryTableViewController.view.hidden = true
         loadSearchView()
@@ -61,6 +56,13 @@ class ViewController: UIViewController {
         filteredSearchHistory = searchHistory.filter({
             $0.rangeOfString(searchText) != nil
         })
+        updateSearchHistory(filteredSearchHistory)
+    }
+    
+    func updateSearchHistory(filteredHistory: [String])
+    {
+        searchHistoryTableViewController.filteredSearchHistory = filteredSearchHistory
+        searchHistoryTableViewController.view.hidden = false
     }
     
     func loadSearchView()
@@ -77,6 +79,16 @@ class ViewController: UIViewController {
 
             return controller
         })()
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if let photoVC = segue.destinationViewController as? PhotoViewController
+        {
+            photoVC.photoDetails = selectedPhotoData
+        }
     }
 }
 
@@ -134,6 +146,11 @@ extension ViewController: UITableViewDataSource{
 
 extension ViewController: UITableViewDelegate{
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        selectedPhotoData = photos[indexPath.row]
+        performSegueWithIdentifier("show photo segue", sender: self)
+    }
 }
 
 extension ViewController: UITextFieldDelegate{
@@ -168,6 +185,8 @@ extension ViewController: UISearchBarDelegate{
     
     func searchBarTextDidEndEditing(searchBar: UISearchBar)
     {
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchHistoryTableViewController.view.hidden = true
         if let text = searchBar.text where count(text) > 0
         {
             searchHistoryTableViewController.view.hidden = true

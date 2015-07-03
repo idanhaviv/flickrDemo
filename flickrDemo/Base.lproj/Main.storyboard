@@ -1,10 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yTK-bI-7bs">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Photo View Controller-->
+        <scene sceneID="bNq-Ei-Ope">
+            <objects>
+                <viewController id="mII-Ii-BgF" customClass="PhotoViewController" customModule="flickrDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="PXS-Sv-29B"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nyl-ey-c2F"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zph-U6-jen">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oAB-Z7-XpZ">
+                                <rect key="frame" x="16" y="20" width="568" height="560"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oAB-Z7-XpZ" firstAttribute="leading" secondItem="Zph-U6-jen" secondAttribute="leadingMargin" id="4Zd-1d-dH1"/>
+                            <constraint firstItem="oAB-Z7-XpZ" firstAttribute="top" secondItem="PXS-Sv-29B" secondAttribute="bottom" id="Ns3-my-FtK"/>
+                            <constraint firstAttribute="centerX" secondItem="oAB-Z7-XpZ" secondAttribute="centerX" id="PUT-Rj-Wsi"/>
+                            <constraint firstAttribute="centerY" secondItem="oAB-Z7-XpZ" secondAttribute="centerY" id="rbM-ts-Qea"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="horizontalSpacingConstraint" destination="4Zd-1d-dH1" id="U8n-u7-8ti"/>
+                        <outlet property="imageView" destination="oAB-Z7-XpZ" id="Hgn-aV-mzH"/>
+                        <outlet property="verticalSpacingConstraint" destination="Ns3-my-FtK" id="5pi-jj-Flf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WAF-17-kel" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1734" y="228"/>
+        </scene>
         <!--Search History View Controller-->
         <scene sceneID="vGL-1i-UAr">
             <objects>
@@ -49,7 +84,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yyW-Ig-Gpq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1120" y="362"/>
+            <point key="canvasLocation" x="351" y="-555"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -63,7 +98,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ija-Pt-fxV" userLabel="Photos Table View">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ija-Pt-fxV" userLabel="Photos Table View">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -112,9 +147,11 @@
                             <constraint firstAttribute="trailing" secondItem="ija-Pt-fxV" secondAttribute="trailing" id="vO2-jV-Xka"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="LMB-bj-T1W"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="Yel-jb-7ld" id="k2O-WJ-3mo"/>
                         <outlet property="tableView" destination="ija-Pt-fxV" id="bRp-Wt-4xi"/>
+                        <segue destination="mII-Ii-BgF" kind="show" identifier="show photo segue" id="MZl-r9-aCI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -135,6 +172,25 @@
                     </connections>
                 </searchDisplayController>
             </objects>
+            <point key="canvasLocation" x="1049" y="228"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="c3y-bE-dDk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yTK-bI-7bs" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Rtc-CH-Ycp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="X2I-nS-lGC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="djt-46-6eD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="344" y="228"/>
         </scene>
     </scenes>
 </document>
