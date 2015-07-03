@@ -152,7 +152,6 @@
 				8E1ADCE31B442DAF00E11E44 /* ViewController.swift */,
 				8E1ADCE51B442DAF00E11E44 /* Main.storyboard */,
 				8E1ADCDF1B442DAF00E11E44 /* Supporting Files */,
-				8E1ADD071B443C5800E11E44 /* flickrDemo-Bridging-Header.h */,
 				8E1ADD3F1B466CE600E11E44 /* FlickrManager.swift */,
 				8E1ADD671B46A0C500E11E44 /* SearchPhotoCell.swift */,
 				8E1ADD711B470B5600E11E44 /* SearchHistoryViewController.swift */,
@@ -169,6 +168,7 @@
 				8E1ADCEA1B442DAF00E11E44 /* LaunchScreen.xib */,
 				8E1ADD051B44380100E11E44 /* Podfile */,
 				8E1ADCE01B442DAF00E11E44 /* Info.plist */,
+				8E1ADD071B443C5800E11E44 /* flickrDemo-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

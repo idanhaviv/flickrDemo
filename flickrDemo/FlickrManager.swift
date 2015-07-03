@@ -39,6 +39,7 @@ class FlickrManager: NSObject{
     
     func searchRequest(text: String)
     {
+        NSLog("search text: \(text)")
         var request = OFFlickrAPIRequest.init(APIContext: context)
         request.delegate = self
         removePreviousRequests()
@@ -58,7 +59,6 @@ class FlickrManager: NSObject{
     {
         if !runningRequests.isEmpty
         {
-            NSLog("removing......")
             runningRequests.removeAll(keepCapacity: true)
         }
     }
@@ -73,8 +73,6 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
         {
             delegate.modelHasUpdated(results)
         }
-        
-        NSLog("request: \(inRequest) completed with response: \(inResponseDictionary)")
     }
     
     func processResults(results: [NSObject : AnyObject]!)->[[String : String]]
