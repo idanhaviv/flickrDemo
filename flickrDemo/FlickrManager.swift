@@ -12,7 +12,7 @@ class FlickrManager: NSObject{
     
     //property for managing requests in process
     var runningRequests = Set<OFFlickrAPIRequest>()
-    
+    var results = [Photo]()
     var context: OFFlickrAPIContext?
     
     struct FlickrKeys {
@@ -58,7 +58,23 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
     
     func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didCompleteWithResponse inResponseDictionary: [NSObject : AnyObject]!)
     {
+        results = processResults(inResponseDictionary)
         NSLog("request: \(inRequest) completed with response: \(inResponseDictionary)")
+    }
+    
+    func processResults(results: [NSObject : AnyObject]!)->[Photo]
+    {
+        var tempResultsArray = [Photo]()
+        let tempDictionary = results["photos"] as! [NSObject : AnyObject]
+        let photos = tempDictionary["photo"] as! [[String : String]]
+        for photoInfo in photos
+        {
+            let photo = Photo(properties: photoInfo)
+            tempResultsArray.append(photo)
+        }
+        
+        return tempResultsArray
+        
     }
     
     func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!)
