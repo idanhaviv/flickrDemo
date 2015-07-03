@@ -17,7 +17,7 @@ class FlickrManager: NSObject{
     //property for managing requests in process
     var runningRequests = Set<OFFlickrAPIRequest>()
     var results = [[String : String]]()
-    var context: OFFlickrAPIContext?
+    var context: OFFlickrAPIContext
     var delegate: FlickrManagerDelegate?
     
     struct FlickrKeys {
@@ -30,6 +30,11 @@ class FlickrManager: NSObject{
     {
         context = OFFlickrAPIContext(APIKey: FlickrKeys.flickrKey, sharedSecret: FlickrKeys.flickrSecret)
         super.init()
+    }
+    
+    func urlForPhoto(photo: [String : String]) -> NSURL
+    {
+        return context.photoSourceURLFromDictionary(photo, size: OFFlickrThumbnailSize)
     }
     
     func searchRequest(text: String)
