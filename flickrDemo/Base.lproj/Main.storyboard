@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D2134" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -27,12 +28,35 @@
                                 <rect key="frame" x="16" y="79" width="568" height="501"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="photo cell" id="FnN-r2-WQv" userLabel="Photo Cell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="photo cell" id="FnN-r2-WQv" userLabel="Photo Cell" customClass="SearchPhotoCell" customModule="flickrDemo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="568" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FnN-r2-WQv" id="EtB-xd-Sdj">
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="q7a-4r-Tj9">
+                                                    <rect key="frame" x="0.0" y="0.0" width="43.5" height="43.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="q7a-4r-Tj9" secondAttribute="height" multiplier="1:1" id="gis-yS-WTT"/>
+                                                        <constraint firstAttribute="height" constant="43.5" id="tg1-hB-8zr"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="q7a-4r-Tj9" firstAttribute="top" secondItem="EtB-xd-Sdj" secondAttribute="top" id="0cP-Qo-z2g"/>
+                                                <constraint firstItem="q7a-4r-Tj9" firstAttribute="leading" secondItem="EtB-xd-Sdj" secondAttribute="leading" id="BF4-CA-69N"/>
+                                                <constraint firstAttribute="bottom" secondItem="q7a-4r-Tj9" secondAttribute="bottom" id="K1K-vJ-3hN"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="0cP-Qo-z2g"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="imageView" destination="q7a-4r-Tj9" id="fBi-cR-b2H"/>
+                                            <outlet property="photoView" destination="q7a-4r-Tj9" id="48y-rS-TT5"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
