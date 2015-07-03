@@ -40,6 +40,7 @@
 		8E1ADCF61B442DB000E11E44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E1ADCF71B442DB000E11E44 /* flickrDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flickrDemoTests.swift; sourceTree = "<group>"; };
 		8E1ADD051B44380100E11E44 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; };
+		8E1ADD071B443C5800E11E44 /* flickrDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "flickrDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		B84A1D3F085C78D16D779864 /* Pods-flickrDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flickrDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-flickrDemo/Pods-flickrDemo.release.xcconfig"; sourceTree = "<group>"; };
 		D46EED2B2E69A9EADFFC73C3 /* Pods-flickrDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-flickrDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-flickrDemo/Pods-flickrDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,6 +93,7 @@
 				8E1ADCE81B442DAF00E11E44 /* Images.xcassets */,
 				8E1ADCEA1B442DAF00E11E44 /* LaunchScreen.xib */,
 				8E1ADCDF1B442DAF00E11E44 /* Supporting Files */,
+				8E1ADD071B443C5800E11E44 /* flickrDemo-Bridging-Header.h */,
 			);
 			path = flickrDemo;
 			sourceTree = "<group>";
@@ -406,9 +408,12 @@
 			baseConfigurationReference = D46EED2B2E69A9EADFFC73C3 /* Pods-flickrDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = flickrDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "flickrDemo/flickrDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -417,9 +422,11 @@
 			baseConfigurationReference = B84A1D3F085C78D16D779864 /* Pods-flickrDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = flickrDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "flickrDemo/flickrDemo-Bridging-Header.h";
 			};
 			name = Release;
 		};

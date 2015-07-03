@@ -9,18 +9,40 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    var context: OFFlickrAPIContext?
+    var request: OFFlickrAPIRequest?
+    struct FlickrKeys {
+        static let flickrKey = "c754f58e4b5c7bd4c8885347222b3238"
+        static let flickrSecret = "976b2adbefb1063c"
+    }
+    
     //flickr api assumes UTF-8 encoded strings
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        context = OFFlickrAPIContext(APIKey: FlickrKeys.flickrKey, sharedSecret: FlickrKeys.flickrSecret)
+        requestCall()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func requestCall()
+    {
+        request = OFFlickrAPIRequest.init(APIContext: context)
+        request!.delegate = self
+//        var response = request.callAPIMethodWithGET("flickr.photos.getRecent", arguments: ["per_page":"1"])
+        var response = request!.callAPIMethodWithGET("flickr.photos.search", arguments: ["text" : "new york"])
     }
 
 
 }
 
+extension ViewController: OFFlickrAPIRequestDelegate{
+    
+    func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didCompleteWithResponse inResponseDictionary: [NSObject : AnyObject]!) {
+        NSLog("asf")
+    }
+    
+    func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!) {
+        NSLog("asf")
+    }
+}
