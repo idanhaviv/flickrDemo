@@ -38,14 +38,17 @@ class FlickrManager: NSObject{
         return context.photoSourceURLFromPhotoDetails(photo, size: size)
     }
     
-    func searchRequest(text: String)
+    //range argument should be in a batch of 30, e.g. 0-29, 30-59 etc.
+    func searchRequest(text: String, range: Range<Int> = Range(start: 0, end: 29))
     {
+        //todo: check range is in the correct form
+        
         NSLog("search text: \(text)")
         var request = OFFlickrAPIRequest.init(APIContext: context)
         request.delegate = self
         removePreviousRequests()
-        
-        let requestGeneratedSuccessfully = request.callAPIMethodWithGET("flickr.photos.search", arguments: ["text" : text])
+        let page = (range.endIndex + 1) / 30
+        let requestGeneratedSuccessfully = request.callAPIMethodWithGET("flickr.photos.search", arguments: ["text" : text, "per_page" : "30", "page" : page])
         if requestGeneratedSuccessfully
         {
             runningRequests.insert(request)
@@ -77,6 +80,16 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
     }
     
     func processResults(results: [NSObject : AnyObject]!)->[Photo]
+    {
+        let photoResults = convertResultsDictionaryToPhotoArray(results)
+        let tempDictionary = results["photos"] as! [NSObject : AnyObject]
+        let page = tempDictionary["page"] as! String
+        //todo: maybe check for gaps in pages? e.g. we have results for pages 1,2 and received page 4
+        self.results += photoResults
+        return self.results
+    }
+    
+    func convertResultsDictionaryToPhotoArray(results: [NSObject : AnyObject]!)->[Photo]
     {
         var tempResultsArray = [Photo]()
         let tempDictionary = results["photos"] as! [NSObject : AnyObject]

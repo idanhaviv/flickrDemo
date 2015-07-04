@@ -15,7 +15,7 @@ protocol SearchHistoryDelegate{
 
 class ViewController: UIViewController {
     //todo: test the parsing of photo from the dictionary, and the construction of the url
-
+    //todo: add loading "icon"
     //todo: add paging and caching photos
     //todo: check why not all thumbnails are aligned properly, and why when chicking on cell the image changes
     @IBOutlet weak var tableView: UITableView!
@@ -33,6 +33,7 @@ class ViewController: UIViewController {
     var photos = [Photo]()
     var photosSearchController = UISearchController()
     let searchHistoryTableViewController: SearchHistoryViewController!
+    var lastSearchText: String?
     var selectedPhotoData: Photo?
     
     required init(coder aDecoder: NSCoder)
@@ -157,6 +158,14 @@ extension ViewController: UITableViewDelegate{
         selectedPhotoData = photos[indexPath.row]
         performSegueWithIdentifier("show photo segue", sender: self)
     }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        //fetch more photos when only 5 more to load
+        if indexPath.row >= photos.count - 6, let lastSearchText = lastSearchText
+        {
+            flickrManager.searchRequest(lastSearchText, range: Range(start: photos.count, end: photos.count + 29))
+        }
+    }
 }
 
 extension ViewController: UITextFieldDelegate{
@@ -191,6 +200,8 @@ extension ViewController: UISearchBarDelegate{
         
         if let text = searchBar.text where count(text) > 0
         {
+            self.lastSearchText = text
+            
             if !contains(searchHistory, text)
             {
                 searchHistory.append(text)

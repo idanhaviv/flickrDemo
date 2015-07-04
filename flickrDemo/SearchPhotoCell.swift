@@ -14,7 +14,7 @@ class SearchPhotoCell: UITableViewCell {
     
     func cleanBeforeReuse()
     {
-        
+        self.photoView.image = nil
     }
     
 //    override func layoutSubviews() {
