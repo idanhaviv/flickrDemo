@@ -197,10 +197,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
+                        <outlet property="delegate" destination="WeD-Go-Yp9" id="Xww-ea-EKM"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="X2I-nS-lGC"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="djt-46-6eD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="WeD-Go-Yp9" customClass="NavigationControllerDelegate" customModule="flickrDemo" customModuleProvider="target"/>
             </objects>
             <point key="canvasLocation" x="344" y="228"/>
         </scene>

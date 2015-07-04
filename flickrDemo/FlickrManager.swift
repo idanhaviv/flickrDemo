@@ -92,7 +92,6 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
         let photoResults = convertResultsDictionaryToPhotoArray(results)
         let tempDictionary = results["photos"] as! [NSObject : AnyObject]
         let page = tempDictionary["page"] as! String
-        //todo: maybe check for gaps in pages? e.g. we have results for pages 1,2 and received page 4
         self.results += photoResults
         return self.results
     }
