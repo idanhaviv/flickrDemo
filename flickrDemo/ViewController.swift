@@ -30,10 +30,10 @@ class ViewController: UIViewController {
     
     var filteredSearchHistory = [String]()
     let flickrManager = FlickrManager()
-    var photos = [[String : String]]()
+    var photos = [Photo]()
     var photosSearchController = UISearchController()
     let searchHistoryTableViewController: SearchHistoryViewController!
-    var selectedPhotoData: [String : String]?
+    var selectedPhotoData: Photo?
     
     required init(coder aDecoder: NSCoder)
     {
@@ -127,7 +127,7 @@ extension ViewController: UITableViewDataSource{
         return 100
     }
     
-    func updateCell(cell: SearchPhotoCell, indexPath: NSIndexPath, photo: [String : String])
+    func updateCell(cell: SearchPhotoCell, indexPath: NSIndexPath, photo: Photo)
     {
         let photoURL = flickrManager.urlForPhoto(photo)
         Alamofire.request(.GET, photoURL.URLString)
@@ -166,7 +166,7 @@ extension ViewController: UITextFieldDelegate{
 }
 
 extension ViewController: FlickrManagerDelegate{
-    func modelHasUpdated(photos: [[String : String]]) {
+    func modelHasUpdated(photos: [Photo]) {
         self.photos = photos
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             self.tableView.reloadData()

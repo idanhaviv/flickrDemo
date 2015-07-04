@@ -11,7 +11,7 @@ import Alamofire
 
 class PhotoViewController: UIViewController {
 
-    var photoDetails: [String : String]?
+    var photoDetails: Photo?
     let flickrManager = FlickrManager()
     
     @IBOutlet weak var imageView: UIImageView!
@@ -35,7 +35,7 @@ class PhotoViewController: UIViewController {
         }
     }
     
-    func fetchPhoto(photoDetails: [String : String])
+    func fetchPhoto(photoDetails: Photo)
     {
         let photoSize = photoSizeForScreenSize()
         let photoURL = flickrManager.urlForPhoto(photoDetails, size: photoSize).URLString

@@ -9,14 +9,14 @@
 import Foundation
 
 protocol FlickrManagerDelegate{
-    func modelHasUpdated(photos: [[String : String]])
+    func modelHasUpdated(photos: [Photo])
 }
 
 class FlickrManager: NSObject{
-    
+    //todo: handle flickr request errors
     //property for managing requests in process
     var runningRequests = Set<OFFlickrAPIRequest>()
-    var results = [[String : String]]()
+    var results = [Photo]()
     var context: OFFlickrAPIContext
     var delegate: FlickrManagerDelegate?
     
@@ -32,9 +32,9 @@ class FlickrManager: NSObject{
         super.init()
     }
     
-    func urlForPhoto(photo: [String : String], size: NSString? = OFFlickrThumbnailSize) -> NSURL
+    func urlForPhoto(photo: Photo, size: NSString? = OFFlickrThumbnailSize) -> NSURL
     {
-        return context.photoSourceURLFromDictionary(photo, size: size as? String)
+        return context.photoSourceURLFromPhotoDetails(photo, size: size)
     }
     
     func searchRequest(text: String)
@@ -75,14 +75,15 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
         }
     }
     
-    func processResults(results: [NSObject : AnyObject]!)->[[String : String]]
+    func processResults(results: [NSObject : AnyObject]!)->[Photo]
     {
-        var tempResultsArray = [[String : String]]()
+        var tempResultsArray = [Photo]()
         let tempDictionary = results["photos"] as! [NSObject : AnyObject]
         let photos = tempDictionary["photo"] as! [[String : String]]
         for photoInfo in photos
         {
-            tempResultsArray.append(photoInfo)
+            let photo = Photo(properties: photoInfo)
+            tempResultsArray.append(photo)
         }
         
         return tempResultsArray
@@ -91,5 +92,21 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
     func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!)
     {
         NSLog("request: \(inRequest) completed with error: \(inError)")
+    }
+}
+
+extension OFFlickrAPIContext{
+    
+    func photoSourceURLFromPhotoDetails(photo: Photo, size: NSString?) -> NSURL
+    {
+        var photoDetails = photoDetailsDictionaryFromPhoto(photo)
+        return photoSourceURLFromDictionary(photoDetails, size: size as? String)
+    }
+    
+    func photoDetailsDictionaryFromPhoto(photo: Photo) -> [String : String]
+    {
+        var dictionary = ["id" : photo.id, "owner" : photo.owner, "title" : photo.title, "server" : photo.serverID,
+            "farm" : photo.farmID, "secret" : photo.secret]
+        return dictionary
     }
 }
