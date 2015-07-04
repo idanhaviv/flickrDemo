@@ -36,6 +36,8 @@ class ViewController: UIViewController {
     var lastSearchText: String?
     var selectedPhotoData: Photo?
     
+    var imagesCache = NSCache() //keys: photo id values: UIImage
+    
     required init(coder aDecoder: NSCoder)
     {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -130,6 +132,23 @@ extension ViewController: UITableViewDataSource{
     
     func updateCell(cell: SearchPhotoCell, indexPath: NSIndexPath, photo: Photo)
     {
+        if let cachedImage = imagesCache.objectForKey(photo.id) as? UIImage
+        {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                cell.photoView.image = cachedImage
+                cell.layoutIfNeeded()
+                cell.layoutSubviews()
+            })
+            
+            return
+        }
+        
+        //image is not cached
+        fetchAndCacheImage(photo, cell: cell)
+    }
+    
+    func fetchAndCacheImage(photo: Photo, cell: SearchPhotoCell)
+    {
         let photoURL = flickrManager.urlForPhoto(photo)
         Alamofire.request(.GET, photoURL.URLString)
             .response { (request, response, data, error) in
@@ -141,6 +160,8 @@ extension ViewController: UITableViewDataSource{
                         cell.photoView.image = image
                         cell.layoutIfNeeded()
                         cell.layoutSubviews()
+                    
+                        self.imagesCache.setObject(image!, forKey: photo.id)
                     })
                 }
                 else
@@ -168,13 +189,8 @@ extension ViewController: UITableViewDelegate{
     }
 }
 
-extension ViewController: UITextFieldDelegate{
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-    }
-}
-
 extension ViewController: FlickrManagerDelegate{
+    
     func modelHasUpdated(photos: [Photo]) {
         self.photos = photos
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
