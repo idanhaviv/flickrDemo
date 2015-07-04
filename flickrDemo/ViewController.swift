@@ -14,7 +14,10 @@ protocol SearchHistoryDelegate{
 }
 
 class ViewController: UIViewController {
+    //todo: test the parsing of photo from the dictionary, and the construction of the url
+    //todo: return Photo object as a model
     //todo: add paging and caching photos
+    //todo: check why not all thumbnails are aligned properly, and why when chicking on cell the image changes
     @IBOutlet weak var tableView: UITableView!
     var searchHistory = [String](){
         didSet {
@@ -44,10 +47,15 @@ class ViewController: UIViewController {
     //flickr api assumes UTF-8 encoded strings
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.hidden = true
+        
         flickrManager.delegate = self
         searchHistoryTableViewController.view.hidden = true
-        loadSearchView()
+        self.photosSearchController = loadSearchViewController()
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        navigationController?.navigationBar.hidden = true
     }
     
     func filterContentForSearchText(searchText: String)
@@ -65,20 +73,18 @@ class ViewController: UIViewController {
         searchHistoryTableViewController.view.hidden = false
     }
     
-    func loadSearchView()
+    func loadSearchViewController() -> UISearchController
     {
-        self.photosSearchController = ({
-            let controller = UISearchController(searchResultsController: self.searchHistoryTableViewController)
-            controller.searchResultsUpdater = self
-            controller.hidesNavigationBarDuringPresentation = false
-            controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.delegate = self
-            controller.searchBar.searchBarStyle = .Minimal
-            controller.searchBar.sizeToFit()
-            self.tableView.tableHeaderView = controller.searchBar
+        let controller = UISearchController(searchResultsController: self.searchHistoryTableViewController)
+        controller.searchResultsUpdater = self
+        controller.hidesNavigationBarDuringPresentation = false
+        controller.dimsBackgroundDuringPresentation = false
+        controller.searchBar.delegate = self
+        controller.searchBar.searchBarStyle = .Minimal
+        controller.searchBar.sizeToFit()
+        self.tableView.tableHeaderView = controller.searchBar
 
-            return controller
-        })()
+        return controller
     }
     
     // MARK: - Navigation
@@ -186,10 +192,10 @@ extension ViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(searchBar: UISearchBar)
     {
         searchBar.setShowsCancelButton(false, animated: true)
-        searchHistoryTableViewController.view.hidden = true
+        
+//        searchHistoryTableViewController.view.hidden = true
         if let text = searchBar.text where count(text) > 0
         {
-            searchHistoryTableViewController.view.hidden = true
             if !contains(searchHistory, text)
             {
                 searchHistory.append(text)
@@ -197,6 +203,7 @@ extension ViewController: UISearchBarDelegate{
             
             flickrManager.searchRequest(text)
         }
+        photosSearchController.active = false
     }
 }
 

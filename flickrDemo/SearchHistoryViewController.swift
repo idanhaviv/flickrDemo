@@ -19,7 +19,7 @@ class SearchHistoryViewController: UITableViewController {
     var delegate: SearchHistoryDelegate?
 
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return 1
