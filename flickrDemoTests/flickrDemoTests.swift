@@ -8,6 +8,7 @@
 
 import UIKit
 import XCTest
+import Alamofire
 
 class flickrDemoTests: XCTestCase {
     
@@ -21,9 +22,13 @@ class flickrDemoTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    //tests the creation of a Photo object from dictionary and parsing the url needed for fetching a photo from Flickr
+    func testFlickrFetchPhotoURLConstruction() {
+        let photoDetails = ["id" : "123", "owner" : "111G", "title" : "becky", "server" : "12", "farm" : "1", "secret" : "abcd1"]
+        let photo = Photo(properties: photoDetails)
+        let photoURL = FlickrManager().urlForPhoto(photo).URLString
+        let expectedURL = "https://farm1.staticflickr.com/12/123_abcd1_t.jpg"
+        XCTAssertEqual(photoURL, expectedURL, "url construction for fetching photo from flickr is not as expected")
     }
     
     func testPerformanceExample() {

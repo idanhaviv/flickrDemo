@@ -8,5 +8,7 @@ end
 
 target 'flickrDemoTests' do
 
+pod 'objectiveflickr'
+
 end
 
