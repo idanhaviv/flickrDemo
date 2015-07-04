@@ -14,6 +14,7 @@ protocol FlickrManagerDelegate{
 
 class FlickrManager: NSObject{
     //todo: handle flickr request errors
+    
     //property for managing requests in process
     var runningRequests = Set<OFFlickrAPIRequest>()
     var results = [Photo]()

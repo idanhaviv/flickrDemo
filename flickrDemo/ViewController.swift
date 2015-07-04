@@ -15,7 +15,7 @@ protocol SearchHistoryDelegate{
 
 class ViewController: UIViewController {
     //todo: test the parsing of photo from the dictionary, and the construction of the url
-    //todo: return Photo object as a model
+
     //todo: add paging and caching photos
     //todo: check why not all thumbnails are aligned properly, and why when chicking on cell the image changes
     @IBOutlet weak var tableView: UITableView!
@@ -185,15 +185,10 @@ extension ViewController: UISearchBarDelegate{
         searchHistoryTableViewController.view.hidden = true
     }
     
-    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
-        //todo
-    }
-    
     func searchBarTextDidEndEditing(searchBar: UISearchBar)
     {
         searchBar.setShowsCancelButton(false, animated: true)
         
-//        searchHistoryTableViewController.view.hidden = true
         if let text = searchBar.text where count(text) > 0
         {
             if !contains(searchHistory, text)
