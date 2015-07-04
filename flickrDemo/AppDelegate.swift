@@ -11,7 +11,6 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    //todo: handle app life cycle - if app goes to background and back it should get back to its previous state
     var window: UIWindow?
     var searchHistory: [String]?
 

@@ -140,7 +140,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="activityIndicator" destination="Nfi-2A-8so" id="vsq-pQ-N88"/>
-                                            <outlet property="imageView" destination="q7a-4r-Tj9" id="fBi-cR-b2H"/>
                                             <outlet property="photoView" destination="q7a-4r-Tj9" id="48y-rS-TT5"/>
                                         </connections>
                                     </tableViewCell>

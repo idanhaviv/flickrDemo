@@ -15,8 +15,8 @@ protocol SearchHistoryDelegate{
 
 class ViewController: UIViewController {
     //todo: test the parsing of photo from the dictionary, and the construction of the url
-
-    //todo: check why not all thumbnails are aligned properly, and why when chicking on cell the image changes
+    //todo: add transition animation
+    //todo: fit image size on rotation
     @IBOutlet weak var tableView: UITableView!
     var searchHistory = [String](){
         didSet {
@@ -134,7 +134,7 @@ extension ViewController: UITableViewDataSource{
         if let cachedImage = imagesCache.objectForKey(photo.id) as? UIImage
         {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                cell.photoView.image = cachedImage
+                cell.photo = cachedImage
                 cell.layoutIfNeeded()
                 cell.layoutSubviews()
             })
@@ -156,7 +156,8 @@ extension ViewController: UITableViewDataSource{
                 {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         var image = UIImage(data: data as! NSData)
-                        cell.photoView.image = image
+                        
+                        cell.photo = image
                         cell.layoutIfNeeded()
                         cell.layoutSubviews()
                     
