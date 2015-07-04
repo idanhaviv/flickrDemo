@@ -18,19 +18,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oAB-Z7-XpZ">
-                                <rect key="frame" x="16" y="20" width="568" height="560"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oAB-Z7-XpZ">
+                                <rect key="frame" x="16" y="64" width="568" height="472"/>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hVO-CZ-56G">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="oAB-Z7-XpZ" firstAttribute="leading" secondItem="Zph-U6-jen" secondAttribute="leadingMargin" id="4Zd-1d-dH1"/>
+                            <constraint firstItem="hVO-CZ-56G" firstAttribute="centerX" secondItem="oAB-Z7-XpZ" secondAttribute="centerX" id="8UB-IF-nfF"/>
+                            <constraint firstItem="hVO-CZ-56G" firstAttribute="centerY" secondItem="oAB-Z7-XpZ" secondAttribute="centerY" id="AIp-K9-jIG"/>
                             <constraint firstItem="oAB-Z7-XpZ" firstAttribute="top" secondItem="PXS-Sv-29B" secondAttribute="bottom" id="Ns3-my-FtK"/>
                             <constraint firstAttribute="centerX" secondItem="oAB-Z7-XpZ" secondAttribute="centerX" id="PUT-Rj-Wsi"/>
                             <constraint firstAttribute="centerY" secondItem="oAB-Z7-XpZ" secondAttribute="centerY" id="rbM-ts-Qea"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="hVO-CZ-56G" id="Zog-Yq-am2"/>
                         <outlet property="horizontalSpacingConstraint" destination="4Zd-1d-dH1" id="U8n-u7-8ti"/>
                         <outlet property="imageView" destination="oAB-Z7-XpZ" id="Hgn-aV-mzH"/>
                         <outlet property="verticalSpacingConstraint" destination="Ns3-my-FtK" id="5pi-jj-Flf"/>
@@ -115,11 +121,16 @@
                                                         <constraint firstAttribute="height" constant="43.5" id="tg1-hB-8zr"/>
                                                     </constraints>
                                                 </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Nfi-2A-8so">
+                                                    <rect key="frame" x="12" y="12" width="20" height="20"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="q7a-4r-Tj9" firstAttribute="top" secondItem="EtB-xd-Sdj" secondAttribute="top" id="0cP-Qo-z2g"/>
+                                                <constraint firstItem="Nfi-2A-8so" firstAttribute="centerX" secondItem="q7a-4r-Tj9" secondAttribute="centerX" id="6x9-tg-UE2"/>
                                                 <constraint firstItem="q7a-4r-Tj9" firstAttribute="leading" secondItem="EtB-xd-Sdj" secondAttribute="leading" id="BF4-CA-69N"/>
                                                 <constraint firstAttribute="bottom" secondItem="q7a-4r-Tj9" secondAttribute="bottom" id="K1K-vJ-3hN"/>
+                                                <constraint firstItem="Nfi-2A-8so" firstAttribute="centerY" secondItem="q7a-4r-Tj9" secondAttribute="centerY" id="Zly-qM-bro"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
@@ -128,6 +139,7 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="Nfi-2A-8so" id="vsq-pQ-N88"/>
                                             <outlet property="imageView" destination="q7a-4r-Tj9" id="fBi-cR-b2H"/>
                                             <outlet property="photoView" destination="q7a-4r-Tj9" id="48y-rS-TT5"/>
                                         </connections>

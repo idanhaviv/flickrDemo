@@ -16,7 +16,6 @@ protocol SearchHistoryDelegate{
 class ViewController: UIViewController {
     //todo: test the parsing of photo from the dictionary, and the construction of the url
     //todo: add loading "icon"
-    //todo: add paging and caching photos
     //todo: check why not all thumbnails are aligned properly, and why when chicking on cell the image changes
     @IBOutlet weak var tableView: UITableView!
     var searchHistory = [String](){

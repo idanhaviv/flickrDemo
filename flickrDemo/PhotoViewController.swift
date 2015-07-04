@@ -17,7 +17,8 @@ class PhotoViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var horizontalSpacingConstraint: NSLayoutConstraint!
     @IBOutlet weak var verticalSpacingConstraint: NSLayoutConstraint!
-    //todo: add loading
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
     
     override func viewDidLoad()
     {
@@ -28,6 +29,8 @@ class PhotoViewController: UIViewController {
         if let photoDetails = photoDetails
         {
             fetchPhoto(photoDetails)
+            activityIndicator.hidden = false
+            activityIndicator.startAnimating()
         }
         else
         {
@@ -48,6 +51,8 @@ class PhotoViewController: UIViewController {
                     
                     self.view.removeConstraints([self.verticalSpacingConstraint, self.horizontalSpacingConstraint])
                     self.imageView.contentMode = .ScaleAspectFit
+                    self.activityIndicator.stopAnimating()
+                    self.activityIndicator.hidden = true
                     self.imageView.image = image
                     self.view.layoutSubviews()
                 })

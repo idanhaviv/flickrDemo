@@ -10,16 +10,18 @@ import UIKit
 
 class SearchPhotoCell: UITableViewCell {
 
-    @IBOutlet weak var photoView: UIImageView!
+    @IBOutlet weak var photoView: UIImageView!{
+        didSet {
+            activityIndicator.hidden = true
+            activityIndicator.stopAnimating()
+        }
+    }
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     func cleanBeforeReuse()
     {
         self.photoView.image = nil
+        activityIndicator.hidden = false
+        activityIndicator.startAnimating()
     }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        
-//        self.photoView.bounds = self.contentView.bounds
-//    }
 }
