@@ -10,6 +10,7 @@ import Foundation
 
 protocol FlickrManagerDelegate{
     func modelHasUpdated(photos: [Photo])
+    func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!)
 }
 
 class FlickrManager: NSObject{
@@ -112,19 +113,7 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
     
     func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!)
     {
-        switch inError.code{
-        case FlickrErrorCodes.FlickrUnAvailable.rawValue:
-            NSLog("Flickr is currently unavailable with error: \(inError)")
-        case FlickrErrorCodes.ContradictoryArguments.rawValue,
-            FlickrErrorCodes.InvalidAPIKey.rawValue,
-            FlickrErrorCodes.BadURL.rawValue:
-            NSLog("request: \(inRequest) completed with error: \(inError)")
-        case FlickrErrorCodes.ServiceTemporarilyUnAvailable.rawValue:
-            NSLog("Flickr's requested service is currently unavailable with error: \(inError)")
-        default:
-            NSLog("request: \(inRequest) completed with error: \(inError)")
-        }
-        
+        delegate?.flickrAPIRequest(inRequest, didFailWithError: inError)
     }
 }
 

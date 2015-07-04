@@ -196,6 +196,32 @@ extension ViewController: FlickrManagerDelegate{
             self.tableView.reloadData()
         })
     }
+    
+    func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!)
+    {
+        switch inError.code{
+        case FlickrErrorCodes.FlickrUnAvailable.rawValue:
+            NSLog("Flickr is currently unavailable with error: \(inError)")
+            alertWithMessege("Flickr is currently unavailable, try again later")
+        case FlickrErrorCodes.ContradictoryArguments.rawValue,
+        FlickrErrorCodes.InvalidAPIKey.rawValue,
+        FlickrErrorCodes.BadURL.rawValue:
+            NSLog("request: \(inRequest) completed with error: \(inError)")
+        case FlickrErrorCodes.ServiceTemporarilyUnAvailable.rawValue:
+            NSLog("Flickr's requested service is currently unavailable with error: \(inError)")
+            alertWithMessege("Flickr's requested service is currently unavailable, try again later")
+        default:
+            NSLog("request: \(inRequest) completed with error: \(inError)")
+            alertWithMessege(inError.localizedDescription)
+        }
+    }
+    
+    func alertWithMessege(messege: String)
+    {
+        var alert = UIAlertController(title: "Alert", message: messege, preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
 }
 
 extension ViewController: UISearchBarDelegate{
