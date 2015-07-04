@@ -13,12 +13,24 @@ class PhotoViewController: UIViewController {
 
     var photoDetails: Photo?
     let flickrManager = FlickrManager()
+    var screenMinSize: CGFloat
+    var screenHeight: CGFloat
+    var screenWidth: CGFloat
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var horizontalSpacingConstraint: NSLayoutConstraint!
     @IBOutlet weak var verticalSpacingConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
+    required init(coder aDecoder: NSCoder)
+    {
+        let screenRect = UIScreen.mainScreen().bounds
+        screenWidth = screenRect.size.width
+        screenHeight = screenRect.size.height
+        screenMinSize = min(screenHeight, screenWidth)
+        
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad()
     {
@@ -50,10 +62,10 @@ class PhotoViewController: UIViewController {
                     var image = UIImage(data: data as! NSData)
                     
                     self.view.removeConstraints([self.verticalSpacingConstraint, self.horizontalSpacingConstraint])
-                    self.imageView.contentMode = .ScaleAspectFit
+                    self.imageView.contentMode = .ScaleAspectFill
                     self.activityIndicator.stopAnimating()
                     self.activityIndicator.hidden = true
-                    self.imageView.image = image
+                    self.imageView.image = self.resizedImageToFitScreen(image!)
                     self.view.layoutSubviews()
                 })
             }
@@ -64,26 +76,37 @@ class PhotoViewController: UIViewController {
         }
     }
     
+    func resizedImageToFitScreen(image: UIImage) -> UIImage
+    {
+        let oldImageHeight = image.size.height
+        let oldImageWidth = image.size.width
+        let heightScale = screenHeight / oldImageHeight
+        let widthScale = screenWidth / oldImageWidth
+        let scaleFactor = min(heightScale , widthScale)
+        let newImageHeight = oldImageHeight * scaleFactor
+        let newImageWidth = oldImageWidth * scaleFactor
+        UIGraphicsBeginImageContext(CGSizeMake(newImageWidth, newImageHeight))
+        image.drawInRect(CGRectMake(0, 0, newImageWidth, newImageHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return newImage
+    }
+    
     func photoSizeForScreenSize() -> NSString?
     {
-        let screenRect = UIScreen.mainScreen().bounds
-        let screenWidth = screenRect.size.width
-        let screenHeight = screenRect.size.height
-        let maxSize = max(screenHeight, screenWidth)
-        
-        if maxSize > 1024
+        if screenMinSize > 1024
         {
             return OFFlickrLargeSize
         }
-        else if maxSize > 500
+        else if screenMinSize > 500
         {
             return nil
         }
-        else if maxSize > 240
+        else if screenMinSize > 240
         {
             return OFFlickrSmallSize
         }
-        else if maxSize > 100
+        else if screenMinSize > 100
         {
             return OFFlickrThumbnailSize
         }
