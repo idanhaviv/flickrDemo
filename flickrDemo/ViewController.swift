@@ -14,8 +14,6 @@ protocol SearchHistoryDelegate{
 }
 
 class ViewController: UIViewController {
-    //todo: test the parsing of photo from the dictionary, and the construction of the url
-    //todo: alert to user when there's a problem with flickr
     @IBOutlet weak var tableView: UITableView!
     var searchHistory = [String](){
         didSet {

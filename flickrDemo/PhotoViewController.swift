@@ -30,21 +30,30 @@ class PhotoViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
         navigationController?.navigationBar.hidden = false
         self.imageView.contentMode = .ScaleAspectFill
-        setupImage()
-    }
-    
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval)
-    {
-        setupImage()
-    }
-    
-    func setupImage()
-    {
+        
         let screenRect = UIScreen.mainScreen().bounds
         screenWidth = screenRect.size.width
         screenHeight = screenRect.size.height
         screenMinSize = min(screenHeight!, screenWidth!)
         
+        setupImage()
+    }
+    
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval)
+    {
+        navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
+        navigationController?.navigationBar.hidden = false
+        
+        let screenRect = UIScreen.mainScreen().bounds
+        screenWidth = screenRect.size.height
+        screenHeight = screenRect.size.width
+        screenMinSize = min(screenHeight!, screenWidth!)
+        
+        setupImage()
+    }
+    
+    func setupImage()
+    {
         if let oldImage = imageView.image
         {
             UIView.animateWithDuration(0.7, animations: { () -> Void in
