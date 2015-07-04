@@ -41,7 +41,11 @@ class FlickrManager: NSObject{
     //range argument should be in a batch of 30, e.g. 0-29, 30-59 etc.
     func searchRequest(text: String, range: Range<Int> = Range(start: 0, end: 29))
     {
-        //todo: check range is in the correct form
+        if !rangeInProperFormat(range)
+        {
+            NSLog("range is not in proper format: \(range)")
+            return
+        }
         
         NSLog("search text: \(text)")
         var request = OFFlickrAPIRequest.init(APIContext: context)
@@ -57,6 +61,12 @@ class FlickrManager: NSObject{
         {
             NSLog("error creating request: \(request)")
         }
+    }
+    
+    //returns true iff range contains 30 numbers and is a unit of 30's batch e.g. 0-29, 30-59 etc.
+    func rangeInProperFormat(range: Range<Int>) -> Bool
+    {
+        return ((range.endIndex - range.startIndex + 1) % 30 == 0) && (((range.endIndex + 1) % 30) == 0)
     }
     
     func removePreviousRequests()
