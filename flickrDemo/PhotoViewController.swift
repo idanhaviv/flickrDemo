@@ -13,30 +13,44 @@ class PhotoViewController: UIViewController {
 
     var photoDetails: Photo?
     let flickrManager = FlickrManager()
-    var screenMinSize: CGFloat
-    var screenHeight: CGFloat
-    var screenWidth: CGFloat
+    var screenMinSize: CGFloat?
+    var screenHeight: CGFloat?
+    var screenWidth: CGFloat?
+    var portraitImage: UIImage?
+    var landscapeImage: UIImage?
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var horizontalSpacingConstraint: NSLayoutConstraint!
     @IBOutlet weak var verticalSpacingConstraint: NSLayoutConstraint!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
-    required init(coder aDecoder: NSCoder)
-    {
-        let screenRect = UIScreen.mainScreen().bounds
-        screenWidth = screenRect.size.width
-        screenHeight = screenRect.size.height
-        screenMinSize = min(screenHeight, screenWidth)
-        
-        super.init(coder: aDecoder)
-    }
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
         navigationController?.navigationBar.hidden = false
+        self.imageView.contentMode = .ScaleAspectFill
+        setupImage()
+    }
+    
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval)
+    {
+        setupImage()
+    }
+    
+    func setupImage()
+    {
+        let screenRect = UIScreen.mainScreen().bounds
+        screenWidth = screenRect.size.width
+        screenHeight = screenRect.size.height
+        screenMinSize = min(screenHeight!, screenWidth!)
+        
+        if let oldImage = imageView.image
+        {
+            UIView.animateWithDuration(0.7, animations: { () -> Void in
+                self.imageView.alpha = 0
+            })
+        }
         
         if let photoDetails = photoDetails
         {
@@ -52,6 +66,48 @@ class PhotoViewController: UIViewController {
     
     func fetchPhoto(photoDetails: Photo)
     {
+        if photoIsCached()
+        {
+            setCachedPhotoInImageView()
+        }
+        else
+        {
+            fetchPhotoFromFlickr(photoDetails)
+        }
+    }
+    
+    func photoIsCached() -> Bool
+    {
+        if (UIDevice.currentDevice().orientation == .Portrait)
+        {
+            return self.portraitImage != nil
+        }
+        else
+        {
+            return self.landscapeImage != nil
+        }
+    }
+    
+    func setCachedPhotoInImageView()
+    {
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.hidden = true
+        
+        if (UIDevice.currentDevice().orientation == .Portrait)
+        {
+            self.imageView.image = portraitImage
+        }
+        else
+        {
+            self.imageView.image = landscapeImage
+        }
+        
+        self.fadeInImage()
+        self.view.layoutSubviews()
+    }
+    
+    func fetchPhotoFromFlickr(photoDetails: Photo)
+    {
         let photoSize = photoSizeForScreenSize()
         let photoURL = flickrManager.urlForPhoto(photoDetails, size: photoSize).URLString
         Alamofire.request(.GET, photoURL).response { (request, response, data, error) in
@@ -60,12 +116,20 @@ class PhotoViewController: UIViewController {
             {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     var image = UIImage(data: data as! NSData)
+                    if (self.verticalSpacingConstraint != nil && self.horizontalSpacingConstraint != nil)
+                    {
+                        self.view.removeConstraints([self.verticalSpacingConstraint, self.horizontalSpacingConstraint])
+                    }
                     
-                    self.view.removeConstraints([self.verticalSpacingConstraint, self.horizontalSpacingConstraint])
-                    self.imageView.contentMode = .ScaleAspectFill
                     self.activityIndicator.stopAnimating()
                     self.activityIndicator.hidden = true
-                    self.imageView.image = self.resizedImageToFitScreen(image!)
+                    let img =  self.resizedImageToFitScreen(image!)
+                    if !self.photoIsCached()
+                    {
+                        self.cacheImage(img)
+                    }
+                    self.imageView.image = img
+                    self.fadeInImage()
                     self.view.layoutSubviews()
                 })
             }
@@ -76,12 +140,34 @@ class PhotoViewController: UIViewController {
         }
     }
     
+    func cacheImage(image: UIImage)
+    {
+        if (UIDevice.currentDevice().orientation == .Portrait)
+        {
+            self.portraitImage = image
+        }
+        else
+        {
+            self.landscapeImage = image
+        }
+    }
+    
+    func fadeInImage()
+    {
+        if self.imageView.alpha == 0
+        {
+            UIView.animateWithDuration(0.7, animations: { () -> Void in
+                self.imageView.alpha = 1
+            })
+        }
+    }
+    
     func resizedImageToFitScreen(image: UIImage) -> UIImage
     {
         let oldImageHeight = image.size.height
         let oldImageWidth = image.size.width
-        let heightScale = screenHeight / oldImageHeight
-        let widthScale = screenWidth / oldImageWidth
+        let heightScale = screenHeight! / oldImageHeight
+        let widthScale = screenWidth! / oldImageWidth
         let scaleFactor = min(heightScale , widthScale)
         let newImageHeight = oldImageHeight * scaleFactor
         let newImageWidth = oldImageWidth * scaleFactor
