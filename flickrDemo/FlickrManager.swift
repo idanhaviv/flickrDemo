@@ -13,8 +13,6 @@ protocol FlickrManagerDelegate{
 }
 
 class FlickrManager: NSObject{
-    //todo: handle flickr request errors
-    
     //property for managing requests in process
     var runningRequests = Set<OFFlickrAPIRequest>()
     var results = [Photo]()
@@ -115,8 +113,28 @@ extension FlickrManager: OFFlickrAPIRequestDelegate{
     
     func flickrAPIRequest(inRequest: OFFlickrAPIRequest!, didFailWithError inError: NSError!)
     {
-        NSLog("request: \(inRequest) completed with error: \(inError)")
+        switch inError.code{
+        case FlickrErrorCodes.FlickrUnAvailable.rawValue:
+            NSLog("Flickr is currently unavailable with error: \(inError)")
+        case FlickrErrorCodes.ContradictoryArguments.rawValue,
+            FlickrErrorCodes.InvalidAPIKey.rawValue,
+            FlickrErrorCodes.BadURL.rawValue:
+            NSLog("request: \(inRequest) completed with error: \(inError)")
+        case FlickrErrorCodes.ServiceTemporarilyUnAvailable.rawValue:
+            NSLog("Flickr's requested service is currently unavailable with error: \(inError)")
+        default:
+            NSLog("request: \(inRequest) completed with error: \(inError)")
+        }
+        
     }
+}
+
+enum FlickrErrorCodes: Int{
+    case FlickrUnAvailable = 10
+    case ContradictoryArguments = 18
+    case InvalidAPIKey = 100
+    case ServiceTemporarilyUnAvailable = 105
+    case BadURL = 116
 }
 
 extension OFFlickrAPIContext{
